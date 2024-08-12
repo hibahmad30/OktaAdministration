@@ -55,7 +55,7 @@ Bamboo by Atlassian is a CI/CD tool that automates the processes of building, te
 Configure Bamboo using the General Settings and Sign-On Options tabs, following the instructions provided in the Okta documentation: https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_swa.htm.
 <br/>
 <br/>
-<img src="https://i.imgur.com/DWnRpRk.png" alt="Configure Bamboo"/>
+<img src="https://i.imgur.com/5uGq3qd.png" alt="Configure Bamboo"/>
 <br/>
 <br/>
 Next, click ‘Done > Assign > Assign to Groups.’ Then, assign Bamboo to the ‘Dev’ group.
@@ -71,72 +71,42 @@ To test the application integration and assignment, we will log into Okta as Emm
 <br/>
 <br/>
 
-<h2>Mapping Microsoft Entra ID Attributes to Okta Attributes</h2> 
+<h2>Integrate Dropbox Business Using SAML</h2> 
  <p align="center">
-SAML claims are pieces of information about a user that are shared between different systems to help with logging in and accessing services, such as their name or email address. We will be editing our attributes and claims, which is essentially what information we want to send to Okta for authentication. 
+We will now integrate Dropbox Business with SAML to streamline SSO for users in the ‘Sales’ group. Navigate to ‘Applications > Browse App Catalog,’ search for Dropbox Business, and click ‘Add Integration.’ In the Sign-On Options, select ‘SAML 2.0.’
  <br/>
  <br/>
- <img src="https://i.imgur.com/Pzmbstz.png" alt="Attributes and Claims"/>
+ <img src="https://i.imgur.com/ySfqIh4.png" alt="Dropbox Integration"/>
+    <br/>
+ <br/>
+To establish a trust relationship between Okta and Dropbox Business, additional configuration on the Dropbox Business side is required. I will follow the documentation available here: https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Dropbox.html?baseAdminUrl=https://dev-60754792-admin.okta.com&app=dropbox_for_business&instanceId=0oaixkeibeUyc6L6c5d7.
   <br/>
   <br/>
-In addition to the default claims, we will add 'company name' and 'telephone number': 
-<br/>
- <br/>
- <img src="https://i.imgur.com/c3QstfC.png" alt="Additional Claims"/>
- <br/>
- <br/>
-Return back to Okta, and navigate to SAML Certifications > Edit > New Certificate. Enter the following values to update the placeholders: the 'IdP Issuer URI' is the 'Microsoft Entra Identifier', the 'IdP Single Sign-On URL' is the 'Login URL', and the 'IdP Signature Certificate' is the 'Base64 download'. 
-<br/>
- <br/>
- <img src="https://i.imgur.com/DR3tYq1.png" alt="SAML Certificate"/>
- <br/>
- <br/>
- <img src="https://i.imgur.com/peyTXNw.png" alt="SAML Values"/>
+First, create an account in Dropbox Business, then navigate to ‘Admin Console > Settings > Authentication > Single sign-on.’ Select the appropriate Single Sign-On option from the dropdown menu (Off, Optional, or Required).
   <br/>
- <br/>
- Be sure to make note of the values above. The 'Assertion Consumer Service URL' will be the 'Reply URL in Azure', and the 'Audience URI' will be the 'Identity Entity ID' in Azure.  
+  <br/>
+For the ‘Identity provider sign-in URL,’ click the ‘Add sign-in URL’ link and paste the URL provided in the Okta documentation. In this case, the link is:
+https://dev-60754792.okta.com/app/dropbox_for_business/exkixkeibduRi3Dxv5d7/sso/saml
+  <br/>
+  <br/>
+Download the X.509 certificate and upload it to Dropbox, then click ‘Save.’ Back in Okta, you can enable Silent Provisioning if needed and assign Dropbox Business to the ‘Sales’ group.
 <br/>
-<br/>
-In Entra ID, update the placeholder values: 
-<br/>
-<br/>
-<img src="https://i.imgur.com/lDoz3p7.png" alt="SAML Configuration Update"/>
+ <br/>
+ <img src="https://i.imgur.com/RTuosxX.png" alt="Dropbox Configuration"/>
  <br/>
  <br/>
-Back in Okta, navigate to: Edit profile and mappings > Mappings. We will then unmap all attributes except 'username'. 
-<br/>
-<br/>
-<img src="https://i.imgur.com/trmCk9u.png" alt="Unmap Attributes"/>
+ <img src="https://i.imgur.com/dJMl5AB.png" alt="Dropbox App Assignment"/>
+    <br/>
+ <br/>
+After signing into Sam’s Okta dashboard, we can see that Dropbox has been added as an app integration.
  <br/>
  <br/>
-We will then navigate to 'Custom', and proceed to delete and recreate the attributes. For the attribute mapping, I will be referencing the following Okta documentation: https://help.okta.com/en-us/content/topics/provisioning/azure/azure-map-attributes.htm. Once the attributes are created, we will proceed with updating the mappings: 
- <br/>
- <br/>
-<img src="https://i.imgur.com/nzHv3uy.png" alt="Create Mappings"/>
-<br />
-<br />
- <img src="https://i.imgur.com/r36IKV9.png" alt="Mapping Attributes"/>
- <br />
-<br />
-We will test the authentication by first navigating to our Okta application in Entra ID and assigning users to the application: Manage > users and groups > Add user/group 
-<br />
-<br />
-<img src="https://i.imgur.com/519WGJ6.png" alt="Assign Users"/>
-<br />
-<br />
-We are now ready to test the authentication! Navigate to Single sign-on > Test. 
-<br />
-<br />
-<img src="https://i.imgur.com/XC7Yhjs.png" alt="Test the SSO"/>
-<br />
-<br />
-<img src="https://i.imgur.com/ytzqWAk.png" alt="SSO Login"/>
-<br />
-<br />
-For advanced testing and troubleshooting, you may optionally download the 'My Apps Secure Sign-in Extension' Chrome extension. As demonstrated below, we successfully authenticated!
-<br />
-<br />
-<img src="https://i.imgur.com/fIbnlYn.png" alt="Successful SSO"/>
+ <img src="https://i.imgur.com/xagOAMs.png" alt="Okta Dashboard for Sales User"/>
+  
+<h2>Configure Provisioning for Automated Lifecycle Management</h2> 
+ <p align="center">
+Although Sam was successfully assigned the app, he does not yet have an account in Dropbox. Manually creating accounts for each onboarded user can be time-consuming for administrators. To streamline this process, Okta offers automated user lifecycle provisioning.
+
 <h2>Key takeaways:</h2>
 This project focuses on integrating federation between Microsoft Entra ID and Okta to create a seamless and secure authentication experience across hybrid environments. Federation in this context means connecting these systems so that users can log in once and gain seamless access to resources managed by either platform. This integration simplifies the authentication process, enhances security, and improves user experience across hybrid IT environments. The process begins with the essential step of setting up a "break-glass" account in Entra ID, an emergency backup to ensure continuous access even if primary authentication methods fail. Entra ID is then configured to act as the primary identity provider for Okta by utilizing the SAML 2.0 protocol. 
 <br/>
