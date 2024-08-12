@@ -1,7 +1,7 @@
 <h1>Okta Administration: Onboarding, App Integration, and Provisioning</h1>
 
 <h2>Description</h2>
-Okta's SWA and SSO integration capabilities are essential in managing user access and enhancing security across various applications. This project leverages these features to streamline onboarding, integrate apps like Bamboo and Dropbox Business, and automate lifecycle management. By setting up automated provisioning, the configuration ensures that new users are efficiently granted the necessary permissions, reducing manual administrative overhead and improving overall user experience. 
+Okta's SWA and SAML integration capabilities are essential in managing user access and enhancing security across various applications. This project leverages these features to streamline onboarding, integrate apps like Bamboo and Dropbox Business, and automate lifecycle management. By setting up automated provisioning, the configuration ensures that new users are efficiently granted the necessary permissions, reducing manual administrative overhead and improving overall user experience. 
 <br />
 <br />
 <p align="center">
