@@ -106,21 +106,40 @@ After signing into Sam’s Okta dashboard, we can see that Dropbox has been adde
 <h2>Configure Provisioning for Automated Lifecycle Management</h2> 
  <p align="center">
 Although Sam was successfully assigned the app, he does not yet have an account in Dropbox. Manually creating accounts for each onboarded user can be time-consuming for administrators. To streamline this process, Okta offers automated user lifecycle provisioning.
+ <br/>
+ <br/>
+To configure Dropbox provisioning, refer to the following documentation: https://help.okta.com/en-us/content/topics/provisioning/dropbox/drbx-main.htm. In Okta, navigate to ‘Applications > Dropbox Business > Provisioning’ and click ‘Configure API Integration.’ Check the ‘Enable API integration’ option and click ‘Authenticate with Dropbox Business.’
+ <br/>
+ <br/>
+ <img src="https://i.imgur.com/nioU0VS.png" alt="Dropbox API Integration"/>
+    <br/>
+ <br/>
+Set up provisioning from App to Okta and from Okta to App, along with attribute mappings, according to your requirements. Once configured, click ‘Save.’
+ <br/>
+ <br/>
+   <img src="https://i.imgur.com/KcTpPut.png" alt="Dropbox Provisioning"/>
+    <br/>
+ <br/>
+   <img src="https://i.imgur.com/4FMstw8.png" alt="Dropbox Attribute Mapping"/>
+    <br/>
+ <br/>
+To provision the accounts, navigate to ‘Import > Import Now.’ After logging into Dropbox, we can see that the ‘Sales’ group containing the user Sam has been automatically provisioned. 
+  <br/>
+ <br/>
+   <img src="https://i.imgur.com/Ze1kXqu.png" alt="Dropbox Account Testing"/>
 
 <h2>Key takeaways:</h2>
-This project focuses on integrating federation between Microsoft Entra ID and Okta to create a seamless and secure authentication experience across hybrid environments. Federation in this context means connecting these systems so that users can log in once and gain seamless access to resources managed by either platform. This integration simplifies the authentication process, enhances security, and improves user experience across hybrid IT environments. The process begins with the essential step of setting up a "break-glass" account in Entra ID, an emergency backup to ensure continuous access even if primary authentication methods fail. Entra ID is then configured to act as the primary identity provider for Okta by utilizing the SAML 2.0 protocol. 
-<br/>
-<br/>
-This involves establishing a secure communication link between Azure and Okta through the creation of an Okta enterprise application in Entra ID. The integration involves the setup of SAML claims, which define and map user attributes such as name, email, company name, and telephone number. These claims are fundamental in identifying and authenticating users across both systems. The final step in the implementation is thorough testing and validation to confirm that users can successfully log in to Okta applications using their Entra ID credentials.
-<br/>
-<br/>
-Implementing federation between Azure and Okta offers significant benefits such as enhancing user experience by enabling Single Sign-On (SSO), allowing users to log in once and access multiple systems without repeated authentication. This streamlines the process and reduces the frustration of managing multiple passwords. From an administrative perspective, federation simplifies centralized management of user identities and access rights, reducing the overhead for IT teams. 
-<br/>
-<br/>
-Federation is particularly valuable in several use cases such as for organizations operating in hybrid environments, where a mix of on-premises and cloud-based resources needs unified access management. It also facilitates secure cross-organizational collaboration, allowing external partners to access shared resources using their own identity systems. As companies expand their IT infrastructure, federation supports scalable identity solutions by seamlessly integrating multiple identity providers. 
-<br/>
-<br/>   
-Additionally, it aids in regulatory compliance by offering a centralized, auditable log of user access across all systems. Key terms like federation, SAML, identity provider, attributes and claims, and break-glass accounts play crucial roles in understanding this project. By combining the strengths of Microsoft Entra ID and Okta through federation, this project creates a unified and efficient identity management solution that simplifies and secures user access to diverse systems.
+This project focused on enhancing user management and access control by integrating Okta with Bamboo and Dropbox Business. The primary goal was to streamline user onboarding and automate account provisioning to ensure efficient access management across platforms. By integrating these systems, the project aimed to simplify administrative tasks and improve security and user experience.
+  <br/>
+ <br/>
+The need for this integration arose from the complexity of managing multiple applications and user accounts manually. By using Secure Web Authentication (SWA) for Bamboo and SAML 2.0 for Dropbox Business, the project addressed the challenge of providing seamless Single Sign-On (SSO) and automated provisioning. This integration aimed to reduce administrative overhead and ensure consistent user access across different applications.
+  <br/>
+ <br/>
+The implementation process began with creating and onboarding users, followed by assigning appropriate admin privileges based on their roles. Users were organized into groups, such as 'Sales' and ‘Dev’, to streamline access management. Bamboo was integrated with Okta using SWA, while Dropbox Business was integrated via SAML 2.0 to enable SSO. Automated provisioning was set up for Dropbox Business to ensure that new users created in Okta automatically received Dropbox accounts.
+  <br/>
+ <br/>
+The project delivered significant benefits, including reduced manual administrative tasks, enhanced security through centralized authentication, and a streamlined user experience with integrated SSO. It effectively simplified user management in a multi-application environment, supporting efficient access management and operational efficiency. Key aspects included user onboarding, admin privileges, SWA and SAML integration, and automated lifecycle management.
+
 <p align="center">
 <!--
  ```diff
