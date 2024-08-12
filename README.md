@@ -33,56 +33,43 @@ To grant users administrative privileges, go to their user profile and select 'A
 <img src="https://i.imgur.com/bhgQcSC.png" alt="Administrator Roles"/>
   <br/>
  <br/>
-We will now proceed with adding Entra ID as an identity provider, following the steps outlined in the following Okta documentation:
+Next, we will add the newly created users to their respective groups. Navigate to ‘Directory > Groups > Add Group,’ name the groups as needed, and click ‘Add Users.’ Emma will be assigned to the ‘Dev’ group, and Sam will be assigned to the ‘Sales’ group.
 <br/>
 <br/>
-https://help.okta.com/en-us/content/topics/provisioning/azure/azure-identify-identity-provider.htm
-<br/>
-<br/>
-Navigate to the following path: Security > Identity Providers > Add identity provider > SAML 2.0 IdP
+<img src="https://i.imgur.com/Cpu8eTZ.png" alt="Sales Group"/>
  <br/>
  <br/>
-<img src="https://i.imgur.com/yuHcciM.png" alt="Add IdP"/>
-<br/>
-<br/>
-We will now configure SAML 2.0 using the following settings: 
- <br/>
- <br/>
-<img src="https://i.imgur.com/jfwtPyg.png" alt="Select an IdP"/>
- <br/>
- <br/>
-<img src="https://i.imgur.com/tQ9gCxu.png" alt="Configure IdP"/>
- <br/>
- <br/>
-Ensure to record the following values, as they will be necessary for the next steps: 'Assertion Consumer Service URL' and 'Audience URI'. 
+<img src="https://i.imgur.com/X0wzQEw.png" alt="Dev Group"/>
  
-<h2>Creating the Okta Enterprise App in Microsoft Entra ID</h2> 
+<h2>Integrate Bamboo Using Secure Web Authentication (SWA)</h2> 
 <p align="center">
-We will now create an Okta enterprise app in Entra ID, facilitating communication between Azure and Okta. For guidance, I will refer to the following Okta documentation: 
+We will now set up Bamboo using Secure Web Authentication (SWA). Okta SWA is a solution for integrating web applications that lack support for traditional Single Sign-On (SSO) protocols like SAML or OAuth. It enables SSO for these applications by automating the login process—capturing and securely storing user credentials and then using them to log in automatically, which simplifies access while ensuring security.
 <br/>
 <br/>
-https://help.okta.com/en-us/content/topics/provisioning/azure/azure-create-enterprise-app.htm
+Navigate to ‘Applications > Browse App Catalog.’ Here, you can filter applications in the Okta Integration Network (OIN) by use case, functionality, and industry. Search for the Bamboo application and click ‘Add Integration.’ 
 <br/>
 <br/>
-Begin by navigating to the Azure portal and to the following location: Microsoft Entra ID > Enterprise applications > New application > Create your own application. 
+Bamboo by Atlassian is a CI/CD tool that automates the processes of building, testing, and deploying software. Since Emma is a developer, she will need access to Bamboo. Configuring SWA for apps that lack traditional SSO support will maintain both security and user experience. 
 <br/>
 <br/>
-<img src="https://i.imgur.com/5kU6VKQ.png" alt="Create Application"/>
+Configure Bamboo using the General Settings and Sign-On Options tabs, following the instructions provided in the Okta documentation: https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_swa.htm.
 <br/>
 <br/>
-<img src="https://i.imgur.com/p1iCU3w.png" alt="Configure Application"/>
+<img src="https://i.imgur.com/DWnRpRk.png" alt="Configure Bamboo"/>
 <br/>
 <br/>
-Once application has been created, navigate to 'Set up single sign on' and 'SAML':
+Next, click ‘Done > Assign > Assign to Groups.’ Then, assign Bamboo to the ‘Dev’ group.
 <br/>
 <br/>
-<img src="https://i.imgur.com/GdltHN0.png" alt="Set up SSO"/>
+<img src="https://i.imgur.com/ZxoMXx6.png" alt="Bamboo Group Assignment"/>
 <br/>
 <br/>
-<img src="https://i.imgur.com/3iLe5V6.png" alt="SAML Configuration"/>
+To test the application integration and assignment, we will log into Okta as Emma. As depicted, Bamboo is now visible on Emma’s dashboard. To access Bamboo, ensure that the Okta Browser Plugin is downloaded and enabled. For details on downloading the Okta Browser Plugin, refer to: https://help.okta.com/en-us/content/topics/browser-plugin/browser-plugin-main.htm?cshid=csh-browser-plugin-main.
 <br/>
 <br/>
-In the ‘Basic SAML Configuration’ section, enter placeholder URLs for ‘Identifier’ and ‘Reply URL’, and proceed to save the configuration. Select 'Download for Certificate (Base64)' in the SAML Signing Certificate area to download the certificate to your computer, which will be required for the next steps. 
+<img src="https://i.imgur.com/SICfr3W.png" alt="Okta User Dashboard - Bamboo App"/>
+<br/>
+<br/>
 
 <h2>Mapping Microsoft Entra ID Attributes to Okta Attributes</h2> 
  <p align="center">
