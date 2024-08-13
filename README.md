@@ -9,7 +9,7 @@ Okta's SWA and SAML integration capabilities are essential in managing user acce
 <h2>Environments Used </h2>
 
 - <b>Okta</b>
-- <b>Single Sign-On (SSO)</b>
+- <b>Security Assertion Markup Language (SAML)</b>
 - <b>Secure Web Authentication (SWA)</b>
 - <b>Bamboo (Atlassian)</b>
 - <b>Dropbox Business</b>
