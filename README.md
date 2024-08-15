@@ -1,19 +1,17 @@
 <h1>Okta Administration: Onboarding, App Integration, and Provisioning</h1>
 
 <h2>Description</h2>
-Okta's SWA and SAML integration capabilities are essential in managing user access and enhancing security across various applications. This project leverages these features to streamline onboarding, integrate apps like Bamboo and Dropbox Business, and automate lifecycle management. By setting up automated provisioning, the configuration ensures that new users are efficiently granted the necessary permissions, reducing manual administrative overhead and improving overall user experience. 
-<br />
-<br />
+Okta's SAML integration capabilities are essential in managing user access and enhancing security across various applications. This project leverages these features to streamline onboarding, integrate Dropbox Business, and automate lifecycle management. By setting up automated provisioning and utilizing Okta's Group Push feature, the configuration ensures that new users and groups are efficiently created and granted the necessary permissions, reducing manual administrative overhead and improving overall user experience. 
+
 <p align="center">
 
 <h2>Environments Used </h2>
 
 - <b>Okta</b>
-- <b>Security Assertion Markup Language (SAML)</b>
-- <b>Secure Web Authentication (SWA)</b>
-- <b>Bamboo (Atlassian)</b>
+  - <b>Security Assertion Markup Language (SAML)</b>
+  - <b>API Integration</b>
+  - <b>Group Push</b>
 - <b>Dropbox Business</b>
-- <b>API Integration</b>
 
 <h2>Okta-Mastered User Onboarding: </h2> 
 
@@ -41,36 +39,6 @@ Next, we will add the newly created users to their respective groups. Navigate t
  <br/>
 <img src="https://i.imgur.com/X0wzQEw.png" alt="Dev Group"/>
  
-<h2>Integrate Bamboo Using Secure Web Authentication (SWA)</h2> 
-<p align="center">
-We will now set up Bamboo using Secure Web Authentication (SWA). Okta SWA is a solution for integrating web applications that lack support for traditional Single Sign-On (SSO) protocols like SAML or OAuth. It enables SSO for these applications by automating the login process—capturing and securely storing user credentials and then using them to log in automatically, which simplifies access while ensuring security.
-<br/>
-<br/>
-Navigate to ‘Applications > Browse App Catalog.’ Here, you can filter applications in the Okta Integration Network (OIN) by use case, functionality, and industry. Search for the Bamboo application and click ‘Add Integration.’ 
-<br/>
-<br/>
-Bamboo by Atlassian is a CI/CD tool that automates the processes of building, testing, and deploying software. Since Emma is a developer, she will need access to Bamboo. Configuring SWA for apps that lack traditional SSO support will maintain both security and user experience. 
-<br/>
-<br/>
-Configure Bamboo using the General Settings and Sign-On Options tabs, following the instructions provided in the Okta documentation: https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_swa.htm.
-<br/>
-<br/>
-<img src="https://i.imgur.com/5uGq3qd.png" alt="Configure Bamboo"/>
-<br/>
-<br/>
-Next, click ‘Done > Assign > Assign to Groups.’ Then, assign Bamboo to the ‘Dev’ group.
-<br/>
-<br/>
-<img src="https://i.imgur.com/ZxoMXx6.png" alt="Bamboo Group Assignment"/>
-<br/>
-<br/>
-To test the application integration and assignment, we will log into Okta as Emma. As depicted, Bamboo is now visible on Emma’s dashboard. To access Bamboo, ensure that the Okta Browser Plugin is downloaded and enabled. For details on downloading the Okta Browser Plugin, refer to: https://help.okta.com/en-us/content/topics/browser-plugin/browser-plugin-main.htm?cshid=csh-browser-plugin-main.
-<br/>
-<br/>
-<img src="https://i.imgur.com/SICfr3W.png" alt="Okta User Dashboard - Bamboo App"/>
-<br/>
-<br/>
-
 <h2>Integrate Dropbox Business Using SAML</h2> 
  <p align="center">
 We will now integrate Dropbox Business with SAML to streamline SSO for users in the ‘Sales’ group. Navigate to ‘Applications > Browse App Catalog,’ search for Dropbox Business, and click ‘Add Integration.’ In the Sign-On Options, select ‘SAML 2.0.’
@@ -89,7 +57,7 @@ For the ‘Identity provider sign-in URL,’ click the ‘Add sign-in URL’ lin
 https://dev-60754792.okta.com/app/dropbox_for_business/exkixkeibduRi3Dxv5d7/sso/saml
   <br/>
   <br/>
-Download the X.509 certificate and upload it to Dropbox, then click ‘Save.’ Back in Okta, you can enable Silent Provisioning if needed and assign Dropbox Business to the ‘Sales’ group.
+Download the X.509 certificate and upload it to Dropbox, then click ‘Save.’ Back in Okta, you can enable Silent Provisioning as needed and assign Dropbox Business to the ‘Sales’ group.
 <br/>
  <br/>
  <img src="https://i.imgur.com/RTuosxX.png" alt="Dropbox Configuration"/>
@@ -123,22 +91,46 @@ Set up provisioning from App to Okta and from Okta to App, along with attribute 
    <img src="https://i.imgur.com/4FMstw8.png" alt="Dropbox Attribute Mapping"/>
     <br/>
  <br/>
+ In addition, Okta provides the option to schedule imports to run automatically, or select 'never' if you prefer to run imports manually.
+     <br/>
+ <br/>
+   <img src="https://i.imgur.com/IugQrRx.png" alt="Schedule Imports"/>
+    <br/>
+ <br/>
 To provision the accounts, navigate to ‘Import > Import Now.’ After logging into Dropbox, we can see that the ‘Sales’ group containing the user Sam has been automatically provisioned. 
   <br/>
  <br/>
    <img src="https://i.imgur.com/Ze1kXqu.png" alt="Dropbox Account Testing"/>
 
+<h2>Testing and Troubleshooting</h2> 
+ <p align="center">
+Although Sam was successfully added as a user in Dropbox, an error message stating 'Could not validate SAML assertion' appeared when attempting to SSO from Sam's user dashboard.
+ <br/>
+ <br/>
+Dropbox offers documentation for resolving this specific error, available here: https://help.dropbox.com/security/resolve-SAML-error. 
+ <br/>
+ <br/>
+To address this issue, I returned to Okta, downloaded a new X.509 certificate, and then uploaded the updated certificate to the Dropbox Business Admin Console. As shown in the security logs from Dropbox below, after re-uploading the certificate, Sam was able to successfully sign in to his newly provisioned account.
+ <br/>
+ <br/>
+ <img src="https://i.imgur.com/4n0ZzFY.png" alt="Dropbox Logs"/>
+
+
 <h2>Key takeaways:</h2>
-This project focused on enhancing user management and access control by integrating Okta with Bamboo and Dropbox Business. The primary goal was to streamline user onboarding and automate account provisioning to ensure efficient access management across platforms. By integrating these systems, the project aimed to simplify administrative tasks and improve security and user experience.
-  <br/>
+This project focused on enhancing user management and access control by integrating Okta with Dropbox Business. The primary objective was to streamline user onboarding and automate account provisioning to ensure efficient access management across platforms. Utilizing SAML 2.0 for Dropbox Business addressed the challenge of providing seamless Single Sign-On (SSO) and automated provisioning, thereby reducing administrative overhead and ensuring consistent user access.
  <br/>
-The need for this integration arose from the complexity of managing multiple applications and user accounts manually. By using Secure Web Authentication (SWA) for Bamboo and SAML 2.0 for Dropbox Business, the project addressed the challenge of providing seamless Single Sign-On (SSO) and automated provisioning. This integration aimed to reduce administrative overhead and ensure consistent user access across different applications.
-  <br/>
  <br/>
-The implementation process began with creating and onboarding users, followed by assigning appropriate admin privileges based on their roles. Users were organized into groups, such as 'Sales' and ‘Dev’, to streamline access management. Bamboo was integrated with Okta using SWA, while Dropbox Business was integrated via SAML 2.0 to enable SSO. Automated provisioning was set up for Dropbox Business to ensure that new users created in Okta automatically received Dropbox accounts.
-  <br/>
+The implementation process involved assigning users to the 'Sales' and 'Dev' groups within Dropbox Business via Okta. Provisioning was enabled to ensure that new users created in Okta automatically received Dropbox accounts. Additionally, the Group Push feature was configured to synchronize group memberships between Okta and Dropbox Business.
  <br/>
-The project delivered significant benefits, including reduced manual administrative tasks, enhanced security through centralized authentication, and a streamlined user experience with integrated SSO. It effectively simplified user management in a multi-application environment, supporting efficient access management and operational efficiency. Key aspects included user onboarding, admin privileges, SWA and SAML integration, and automated lifecycle management.
+ <br/>
+The project delivered significant benefits, including reduced manual administrative tasks, enhanced security through centralized authentication, and an improved user experience with integrated SSO. Effective group management was achieved through automated provisioning and Group Push, ensuring consistent access controls across platforms. 
+ <br/>
+ <br/>
+During the implementation, a "Could not validate SAML assertion" error was encountered, which was resolved by downloading and uploading a new X.509 certificate from Okta to the Dropbox Business Admin Console. Following this fix, users were able to successfully sign in to their newly provisioned Dropbox accounts.
+ <br/>
+ <br/>
+Overall, the project significantly simplified user management in a multi-application environment, supporting efficient access management and operational efficiency. Key aspects included user onboarding, admin privileges, SAML integration, and automated lifecycle management.
+
 
 <p align="center">
 <!--
